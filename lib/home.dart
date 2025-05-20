@@ -9,12 +9,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size screen = MediaQuery.of(context).size;
-    final double width = screen.width;
-    final double height = screen.height;
+    // final Size screen = MediaQuery.of(context).size;
+    // final double width = screen.width;
+    // final double height = screen.height;
 
-    print("Lebar layar: $width");
-    print("Tinggi layar: $height");
+    // print("Lebar layar: $width");
+    // print("Tinggi layar: $height");
 
     return Scaffold(
       appBar: AppBar(
@@ -23,53 +23,60 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          margin: EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 10,
-                offset: const Offset(0, 5),
-              ),
-            ],
-          ),
-          child:
-              width > 800
-                  ? Row(
-                    children: [
-                      Expanded(child: PostImage()),
-                      const SizedBox(width: 20.0),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            PostData(),
-                            const SizedBox(height: 20.0),
-                            PostTitle(),
-                            const SizedBox(height: 20.0),
-                            PostDescription(),
-                          ],
-                        ),
-                      ),
-                    ],
-                  )
-                  : Column(
-                    children: [
-                      PostImage(),
-                      const SizedBox(height: 20.0),
-                      PostData(),
-                      const SizedBox(height: 20.0),
-                      PostTitle(),
-                      const SizedBox(height: 20.0),
-                      PostDescription(),
-                      SizedBox(width: double.infinity, height: 10.0),
-                    ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          print("Lebar layar skrg: ${constraints.maxWidth}");
+          print("Tinggi layar skrg: ${constraints.maxHeight})");
+
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
                   ),
-        ),
+                ],
+              ),
+              child:
+                  constraints.maxWidth > 800
+                      ? Row(
+                        children: [
+                          Expanded(child: PostImage()),
+                          const SizedBox(width: 20.0),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                PostData(),
+                                const SizedBox(height: 20.0),
+                                PostTitle(),
+                                const SizedBox(height: 20.0),
+                                PostDescription(),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                      : Column(
+                        children: [
+                          PostImage(),
+                          const SizedBox(height: 20.0),
+                          PostData(),
+                          const SizedBox(height: 20.0),
+                          PostTitle(),
+                          const SizedBox(height: 20.0),
+                          PostDescription(),
+                          SizedBox(width: double.infinity, height: 10.0),
+                        ],
+                      ),
+            ),
+          );
+        },
       ),
     );
   }
