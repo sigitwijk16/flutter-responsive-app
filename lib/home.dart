@@ -9,6 +9,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size screen = MediaQuery.of(context).size;
+    final double width = screen.width;
+    final double height = screen.height;
+
+    print("Lebar layar: $width");
+    print("Tinggi layar: $height");
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -17,145 +24,100 @@ class HomePage extends StatelessWidget {
         foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 200,
-              child: Align(
-                alignment: Alignment.center,
-                child: GestureDetector(
-                  onTap: () {
-                    AlertDialog alert = AlertDialog(
-                      title: Text('Hi'),
-                      content: Text("Hello World"),
-                      actions: [
-                        TextButton(
-                          child: Text("OK"),
-                          onPressed: () => Navigator.of(context).pop(),
+        child: Container(
+          padding: EdgeInsets.all(20),
+          margin: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 10,
+                offset: const Offset(0, 5),
+              ),
+            ],
+          ),
+          child:
+              width > 800
+                  ? Row(
+                    children: [
+                      Expanded(child: PostImage()),
+                      const SizedBox(width: 20.0),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            PostData(),
+                            const SizedBox(height: 20.0),
+                            PostTitle(),
+                            const SizedBox(height: 20.0),
+                            PostDescription(),
+                          ],
                         ),
-                      ],
-                    );
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return alert;
-                      },
-                    );
-                  },
-                  child: Text(
-                    "Hello World",
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.blueAccent,
-                    ),
+                      ),
+                    ],
+                  )
+                  : Column(
+                    children: [
+                      PostImage(),
+                      const SizedBox(height: 20.0),
+                      PostData(),
+                      const SizedBox(height: 20.0),
+                      PostTitle(),
+                      const SizedBox(height: 20.0),
+                      PostDescription(),
+                      SizedBox(width: double.infinity, height: 10.0),
+                    ],
                   ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Hello from Flutter App. Tutorial membangun aplikasi multiplatform dengan Flutter",
-                style: GoogleFonts.poppins(),
-                textAlign: TextAlign.left,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            InkWell(
-              hoverColor: Colors.blue.withValues(alpha: 0.5),
-              onHover: (value) => print("Hover"),
-              onTap: () => print("InkWell clicked"),
-              child: Icon(
-                EvaIcons.heart,
-                size: 100,
-                color: Colors.red,
-                shadows: const [
-                  Shadow(
-                    blurRadius: 19.0,
-                    color: Colors.redAccent,
-                    offset: Offset(7, 8),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              color: Colors.red.shade900,
-              margin: const EdgeInsets.all(10.0),
-              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
-              child: Image.network(
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Antique_Valentine_1909_01.jpg/330px-Antique_Valentine_1909_01.jpg",
-                width: double.infinity,
-                height: 500,
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: Image.network(
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Antique_Valentine_1909_01.jpg/330px-Antique_Valentine_1909_01.jpg",
-                width: double.infinity,
-                height: 400,
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10.0),
-              child: Image.asset(
-                'assets/epictetus.jpg',
-                width: double.infinity,
-                height: 300,
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(
-              width: 300,
-              height: 40.0,
-              child: ElevatedButton(
-                onPressed: () => print("Elevated button clicked"),
-                child: const Text("Click me"),
-              ),
-            ),
-            SizedBox(width: double.infinity, height: 10.0),
-            FilledButton(
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(Colors.blue),
-                foregroundColor: WidgetStateProperty.all(Colors.white),
-              ),
-              onPressed: () => print("Filled button clicked"),
-              child: const Text("Filled Button"),
-            ),
-            SizedBox(width: double.infinity, height: 40.0),
-            TextButton(
-              onPressed: () => print("Text button clicked"),
-              child: const Text("Text Button"),
-            ),
-            SizedBox(width: double.infinity, height: 40.0),
-            OutlinedButton(
-              style: ButtonStyle(
-                foregroundColor: WidgetStateProperty.all(Colors.blue),
-                backgroundColor: WidgetStateProperty.all(Colors.white),
-                side: WidgetStateProperty.all(BorderSide(color: Colors.blue)),
-              ),
-              onPressed: () => print("Outlined button clicked"),
-              child: const Text("Outlined Button"),
-            ),
-            SizedBox(width: double.infinity, height: 40.0),
-            IconButton(
-              onPressed: () => print("Icon button clicked"),
-              icon: const Icon(Icons.add),
-            ),
-            SizedBox(width: double.infinity, height: 40.0),
-            FloatingActionButton(
-              onPressed: () => print("Floating action button clicked"),
-              child: const Icon(Icons.add),
-            ),
-          ],
         ),
       ),
+    );
+  }
+
+  Text PostDescription() {
+    return Text(
+      "Saya sedang belajar menggunakan Framework Flutter yang bisa berjalan di berbagai platform termasuk Android, iOS, Web, dan Desktop",
+      textAlign: TextAlign.justify,
+      style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.normal),
+    );
+  }
+
+  Align PostTitle() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        "Latihan Flutter",
+        style: GoogleFonts.poppins(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  ClipRRect PostImage() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Image.asset('assets/epictetus.jpg', fit: BoxFit.cover),
+    );
+  }
+
+  Row PostData() {
+    return Row(
+      children: [
+        Icon(EvaIcons.heartOutline, color: Colors.red),
+        const SizedBox(width: 5.0),
+        Text('66'),
+        const SizedBox(width: 20.0),
+        Icon(EvaIcons.messageCircleOutline),
+        const SizedBox(width: 5.0),
+        Text('66'),
+        const SizedBox(width: 20.0),
+        Icon(EvaIcons.shareOutline),
+        const SizedBox(width: 5.0),
+        Text('66'),
+        Spacer(),
+        Icon(EvaIcons.bookmarkOutline),
+        const SizedBox(width: 5.0),
+        Text('66'),
+      ],
     );
   }
 }
